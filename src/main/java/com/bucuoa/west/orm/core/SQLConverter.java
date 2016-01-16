@@ -30,7 +30,7 @@ public class SQLConverter {
 
 		Class<? extends Object> class1 = t.getClass();
 		
-		String tableName = AnnoationUtil.getTablename(class1);
+		String tableName = AnnoationUtil.getTablename2(t);
 
 		StringBuffer sql = new StringBuffer();
 		StringBuffer param = new StringBuffer();
@@ -103,6 +103,8 @@ public class SQLConverter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println(sql.toString());
 		return sql.toString();
 
 	}
