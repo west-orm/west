@@ -4,18 +4,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-@Table(name = "activity")
-public class Activity implements Serializable  {
+import com.bucuoa.west.orm.core.annotation.ShardDatabase;
+import com.bucuoa.west.orm.core.annotation.ShardKey;
+import com.bucuoa.west.orm.core.annotation.ShardTable;
 
-	@Transient 
+@Entity
+@Table(name = "activity")
+@ShardDatabase(policy="hash",nums=4)
+@ShardTable(policy="hash",nums=2)
+public class Activity implements Serializable {
+
+	@Transient
 	private static final long serialVersionUID = -4439103201517663695L;
 
+	@Id
 	@Column(name = "id")
-	@Id()
+	// unique nullable inserttable updateable length precision=12, scale=2
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	// @SequenceGenerator(name="seq_user")
 	private int id; // id
 
 	@Column(name = "title")
@@ -27,12 +42,14 @@ public class Activity implements Serializable  {
 	@Column(name = "start_time")
 	private Date startTime; // 开始时间
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "create_time")
 	private Date createTime; // 创建
 
 	@Column(name = "place_name")
 	private String placeName; // 活动场所
-
+	
+	@ShardKey
 	@Column(name = "place_id")
 	private int placeId; // 场所
 
@@ -53,10 +70,10 @@ public class Activity implements Serializable  {
 
 	@Column(name = "memo")
 	private String memo; // 备注
-	
+
 	@Column(name = "uuid")
 	private String uuid; // uuid
-	
+
 	public String getUuid() {
 		return uuid;
 	}

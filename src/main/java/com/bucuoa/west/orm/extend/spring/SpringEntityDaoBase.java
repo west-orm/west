@@ -463,8 +463,6 @@ public class SpringEntityDaoBase<T, PK extends Serializable> {
 				}
 			}
 		}
-		
-
 
 	}
 
